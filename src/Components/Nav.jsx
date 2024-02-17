@@ -2,21 +2,28 @@ import React, { useState } from "react";
 
 const Nav = () => {
 
-    const [age, setAge] = useState([]);
+    const [data, setData] = useState([]);
 
+    const frtchData = (value) => {
+            fetch("https://dummyjson.com/users")
+            .then((response) => response.json())
+            .then((json) => {
+                const result = json.users.filter((user) => {
+                    return(
+                        user.firstName.includes(value) 
+                    )
+                })
+                console.log(result)
+            })
+    }
+
+    const handelChange = (value) => {
+            setData(value)
+            frtchData(value)
+    }
     return(
         <>
-            <h2>Filter</h2>
-            <select class="form-select form-select-sm" aria-label=".form-select-sm example" value={age} onChange={(e)=>setAge(e.target.value)}>
-                <option selected>Select Age</option>
-                <option value="1">28</option>
-                <option value="2">38</option>
-                <option value="3">21</option>
-                <option value="3">29</option>
-                <option value="3">37</option>
-                <option value="3">39</option>
-            </select>
-            <p>{age}</p>
+            <input type="text" value={data} onChange={(e) => handelChange(e.target.value)}/>
         </>
     )
 }
